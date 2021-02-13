@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Login</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>    </head>
+    <body>
+        <center>
+            <form id="form" action="{% url 'Login' %}" method="post" style="max-width: 500px; margin-top: 15%">
+            <h3 style="margin: 5%">login</h3>
+            {% csrf_token %}
+                <div class="form-group" id="emailDiv">
+                    <label for="exampleInputEmail1">UserName</label>
+                    <input type="text" name="userName" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter UserName">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                </div>           
+                <label>Captcha</label><br>
+                <img src="data:image/png;base64,{{ captcha }}">
+                <br>
+                <div class="form-group">
+                    <input type="number" name="captcha" class="form-control" id="captcha" placeholder="Enter Captcha">
+                </div>  
+            </form>
+            <button onclick="Login()" class="btn btn-primary">Login</button>
+            <br>
+            <a href="{% url 'Register' %}">Don't have an account?</a>
+            
+        </center>
+    </body>
+</html>
+<script>
+
+    function Login(){
+        if($("#exampleInputEmail1").val() == ""){
+            alert("you must enter userName");
+            return;
+        }
+        if($("#exampleInputPassword1").val() == ""){
+            alert("you must enter Password");
+            return;
+        }
+        if($("#captcha").val() != "{{ answer }}"){
+            alert("not valid captcha");
+            window.location.assign("{% url 'Login' %}");
+            return;
+        }
+        $("#form").submit();
+    }
+
+    {% if msg == "wrong" %}
+        alert("Wrong Creadentials....");
+    {% endif %}
+    {% if msg == "try again" %}
+        alert("Something went wrong.... try again");
+    {% endif %}
+
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>

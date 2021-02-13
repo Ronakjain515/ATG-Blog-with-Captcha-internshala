@@ -1,0 +1,77 @@
+<html>
+    <head>
+        <title>Dashboard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>    </head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Blog</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'CreateArticle' %}">Create Article<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'Search' %}">Search Articles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'Dashboard' %}">My Articles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'Logout' %}">Logout</a>
+                    </li>
+                </ul>
+                <span class="navbar-text">
+                    {{ userName }}
+                </span>
+            </div>
+        </nav>
+        <center>
+            <form action="{% url 'CreateArticle' %}" method="post" enctype="multipart/form-data" style="max-width: 500px; margin-top: 10%">
+            {% csrf_token %}
+            <input type="hidden" name="userId" value="{{ userId }}">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Title</label>
+                    <input type="text" name="title" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Description</label>
+                    <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" required></textarea>
+                </div>
+                  <div class="form-group">
+                    <label for="exampleFormControlSelect1">Visibility</label>
+                    <select class="form-control" name="visibility" id="exampleFormControlSelect1">
+                        <option value="public">public</option>
+                        <option value="private">private</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlFile1">Upload image</label>
+                    <input type="file" name="image" class="form-control-file" id="exampleFormControlFile1" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </center>
+    </body>
+</html>
+
+
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+
+    {% if msg == "save" %}
+        alert("Article has been created successfully....");
+    {% endif %}
+    {% if msg == "not" %}
+        alert("Something went wrong....");
+    {% endif %}
+</script>

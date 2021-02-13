@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <title>Register</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>    </head>
+    <body>
+        <center>
+            <form id="form" action="{% url 'Register' %}" method="post" style="max-width: 500px; margin-top: 15%">
+            <h3 style="margin: 5%">Register</h3>
+            {% csrf_token %}
+                <div class="form-group" id="emailDiv">
+                    <label for="exampleInputEmail1">UserName</label>
+                    <input type="text" name="userName" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter UserName">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword2">Conform Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Conform Password">
+                </div>
+                
+            </form>
+            <button onclick="Register()" class="btn btn-primary">Submit</button>
+            <br>
+            <a href="{% url 'Login' %}">Already have an account?</a>
+        </center>
+    </body>
+</html>
+<script>
+
+    function Register(){
+        if($("#exampleInputEmail1").val() == ""){
+            alert("you must enter userName");
+            return;
+        }
+        if(!/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/.test($("#exampleInputPassword1").val())){
+            alert("Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters");
+            return;
+        }
+        if($("#exampleInputPassword1").val() !== $("#exampleInputPassword2").val()){
+            alert("Conform should be same as password");
+            return;
+        }
+        $("#form").submit();
+    }
+    {% if msg == "Exist" %}
+        alert("this UserName is already exists...");
+    {% endif %}
+
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
